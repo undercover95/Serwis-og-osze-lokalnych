@@ -1,0 +1,27 @@
+.table-container.well(style='padding: 10px')
+  table
+    tr
+      td(style='width: 60%')
+        .media-left
+          a(href='/zobacz_ogloszenie?ogloszenie_id='+ogloszenie['ID'] style='width: 120px; height: 100px; display: flex; line-height: 100px; justify-content: center; background-color: #f9f9f9; border: 1px solid #ccc;')
+            img.media-object(src="#{ogloszenie['Zdjecie_glowne'].substring(7, ogloszenie['Zdjecie_glowne'].length)}", alt='', style="margin: 0 auto; max-height: 100px; max-width: 120px; align-self: center; float:none;")
+        .media-body
+          a(href='http://localhost:3000/zobacz_ogloszenie?ogloszenie_id='+ogloszenie['ID'])
+            h3.media-heading= ogloszenie['Tytul']
+          p 
+            span.glyphicon.glyphicon-map-marker(aria-hidden='true') 
+            |   #{ogloszenie['Lokalizacja']} 
+            br 
+            span(style='color: #999999')
+              span.glyphicon.glyphicon-time(aria-hidden='true')
+              -var czas = ogloszenie['czas'];
+              -if(czas > 0 && czas < 60)
+                |  Dodano #{czas} sekund temu.
+              -if(czas >= 60 && czas < 3600)
+                -czas = parseInt(czas/60);
+                |  Dodano #{czas} minut temu.
+              -if(czas >= 3600 && czas < 86400)
+                -czas = parseInt(czas/3600);
+                |   Dodano #{czas} godzin temu.
+      td.price(style='font-size: 22px; width: 40%; float:right; text-align: right; padding-right: 20px; line-height: 101px;')
+        !{ogloszenie['Cena']} zł

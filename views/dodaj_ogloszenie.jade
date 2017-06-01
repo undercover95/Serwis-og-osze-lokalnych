@@ -1,0 +1,55 @@
+extends layout
+
+block content     
+    .container(style='margin-top: 20px')
+      include navbar
+      .row
+        include kategorie
+        .col-sm-8
+          include search
+          h1 Dodaj nowe ogłoszenie
+          form(id='dodaj-ogloszenie-form', action='/dodaj_ogloszenie', method='post', enctype="multipart/form-data")
+            .input-group
+              span.input-group-addon(style='min-width:110px;') Tytuł:
+              input.form-control(type='text', name='tytul', placeholder='Wpisz tytuł ogłoszenia')
+            .input-group(style='margin-top: 10px;')
+              span.input-group-addon(style='min-width:111px;') Kategoria:
+              select.selectpicker.form-control(name='kategoria')
+                each kategoria in kategorie
+                  option= kategoria['Nazwa']
+            .input-group(style='margin-top: 10px;')
+              span.input-group-addon(style='min-width:111px;') Zdjęcia:
+              input.form-control(type='file', name='photo', style='padding-bottom: 40px', multiple='', accept='image/*', onChange='showMyImage(this)')
+              br
+            div.podglad-wrapper
+              h4 Podgląd zdjęć
+              div.podglad
+                div.miniaturka
+                  img.miniaturka-img(src='', alt='')
+                div.miniaturka
+                  img.miniaturka-img(src='', alt='')
+                div.miniaturka
+                  img.miniaturka-img(src='', alt='')
+                div(style="clear: both")
+              div.alert.alert-info(role='alert', style='margin-bottom: 0px')
+                span.glyphicon.glyphicon-info-sign
+                |  Możesz wysłać maksymalnie 3 zdjęcia.
+            .input-group(style='margin-top: 10px;')
+              span.input-group-addon(style='min-width:110px;') Opis:
+              textarea.form-control(name='opis', rows='7', maxlength="250", placeholder='Wprowadź opis ogłoszenia')
+            div#charCounter
+            .input-group(style='margin-top: 10px;')
+              span.input-group-addon(style='min-width:111px;') Lokalizacja:
+              select.selectpicker.form-control(name='lokalizacja')
+                option Krakow
+                option Warszawa
+                option Gdansk
+            .input-group(style='margin-top: 10px;')
+              span.input-group-addon(style='min-width:110px;') Cena:
+              input.form-control(type='text', name='cena', placeholder='Podaj cenę')
+            button.btn.btn-primary.pull-right(type='submit', style='margin-top: 10px;') Dodaj ogłoszenie
+            div(style='clear:both;')
+            div.powiadomienie
+
+      footer.well(style='text-align: center') Michał Bularz © 2017
+

@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    .container(style='margin-top: 20px')
+      include navbar
+      .row
+        include kategorie
+        .col-sm-8
+          .jumbotron
+            h1 Witaj w serwisie ogłoszeń lokalnych!
+            p Już teraz dodaj swoje nowe ogłoszenie!
+            .row
+              .col-sm-4
+                a.btn.btn-primary.btn-lg(href='http://localhost:3000/dodaj_ogloszenie', role='button') 
+                  span.glyphicon.glyphicon-plus-sign 
+                  |  Dodaj ogłoszenie
+           
+              .col-sm-8
+                include search
+          h1 Najnowsze ogłoszenia
+          div.loggedOutErrors= messages
+          each ogloszenie in ogloszenia
+            include ramka-ogloszenia
+          
+      footer.well(style='text-align: center') Michał Bularz © 2017
+

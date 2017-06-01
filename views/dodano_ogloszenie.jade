@@ -1,0 +1,17 @@
+extends layout
+
+block content     
+    .container(style='margin-top: 20px')
+      include navbar
+      .row
+        .col-sm-12(style='text-align: center')
+          span.glyphicon.glyphicon-ok-circle(aria-hidden='true', id='added-advert-icon')
+          h1 Pomyślnie dodano ogłoszenie, dziękujemy.
+          .row(style='margin-bottom: 20px')
+            a.btn.btn-success(type='button', style='margin: 10px', href='http://localhost:3000/')
+              span.glyphicon.glyphicon-home(aria-hidden='true')
+              |  Wróć na stronę główną  
+            a.btn.btn-primary(type='button', style='margin: 10px', href='http://localhost:3000/dodaj_ogloszenie')
+              span.glyphicon.glyphicon-plus-sign(aria-hidden='true')
+              |  Dodaj kolejne ogłoszenie
+      footer.well(style='text-align: center') Michał Bularz © 2017

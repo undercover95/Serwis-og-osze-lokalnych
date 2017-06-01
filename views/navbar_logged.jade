@@ -1,0 +1,24 @@
+.row
+  .col-sm-12
+    nav.navbar.navbar-default
+      .container-fluid
+        .navbar-left
+          a(href='/dodaj_ogloszenie')
+            button.btn.btn-primary.navbar-btn.btn-md(type='button')
+              span.glyphicon.glyphicon-plus-sign 
+              |  Dodaj ogłoszenie
+        ul.nav.navbar-nav.navbar-right
+          li.dropdown
+            a.dropdown-toggle(href='/paneluzytkownika', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+              span.glyphicon.glyphicon-user
+              |  #{uzytkownik} 
+              span.caret
+            ul.dropdown-menu
+              li
+                a(href='#') Moje konto
+              li
+                a(href='#') Moje ogłoszenia
+          li
+            a(href='/wyloguj')
+              span.glyphicon.glyphicon-log-out
+              |  Wyloguj

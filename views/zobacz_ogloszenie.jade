@@ -1,0 +1,76 @@
+extends layout
+
+block content
+  .container(style='margin-top: 20px')
+    include navbar
+    .row
+      include kategorie
+      .col-sm-8
+        include search
+        each wlasciwosc in ogloszenie
+          h2= wlasciwosc.Tytul
+          hr
+          ol.breadcrumb
+            li
+              a(href='#') Home
+            li
+              a(href='#') Library
+            li.active Data
+
+          -if (zdjecia.length != 0) // sa zdjecia  
+            #slider.carousel.slide(data-ride='carousel')
+              // Indicators
+              ol.carousel-indicators
+                -var index = 0;
+                each zdjecie in zdjecia
+                  if index == 0
+                    li.active(data-target='#myCarousel', data-slide-to='#{index}')
+                  else
+                    li(data-target='#myCarousel', data-slide-to='#{index}')
+                  -index++
+                
+              // Wrapper for slides
+              .carousel-inner(role='listbox')
+                -index = 0;
+                each zdjecie in zdjecia
+                  if index == 0
+                    .item.active(style='text-align: center')
+                      img(src="#{zdjecie['Sciezka'].substring(7, zdjecie['Sciezka'].length)}", alt="")
+                  else
+                    .item
+                      img(src="#{zdjecie['Sciezka'].substring(7, zdjecie['Sciezka'].length)}", alt="")
+                  -index++
+              
+              // Left and right controls
+              a.left.carousel-control(href='#slider', role='button', data-slide='prev')
+                span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+                span.sr-only Poprzedni
+              a.right.carousel-control(href='#slider', role='button', data-slide='next')
+                span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+                span.sr-only Następny
+            
+          .well(style='margin-top: 20px;')
+            table(style='width: 100%')
+              tr
+                td(style='width: 50%; text-align:left')
+                  h3 Cena:  !{wlasciwosc.Cena} zł
+                  p
+                    | Dodane przez:  !{wlasciwosc.Nazwa} 
+                    br
+                    |   Data dodania:  !{wlasciwosc.Data_dodania}
+                td(style='width: 50%; text-align:right')
+                  #tel.alert.alert-success(style='padding:10px; display: inline-block; font-size: 24px')
+                    span.glyphicon.glyphicon-earphone(aria-hidden='true')
+                    !{wlasciwosc.Tel}
+                  br
+                  button.btn.btn-primary(type='button')
+                    span.glyphicon.glyphicon-envelope(aria-hidden='true')
+                    |  Wyślij wiadomość
+          p#opis(style='align: justify')= wlasciwosc.Opis
+          
+          button.btn.btn-info(type='button' id='ref')
+            span.glyphicon.glyphicon-refresh(aria-hidden='true')
+            |  Odśwież ogłoszenie
+
+                  
+    footer.well(style='text-align: center') Michał Bularz © 2017

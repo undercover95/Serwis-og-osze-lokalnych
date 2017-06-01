@@ -1,0 +1,33 @@
+extends layout
+
+block content
+  .container(style='margin-top: 20px')
+    include navbar
+    .row
+      include kategorie
+      .col-sm-8
+        include search
+        h1= subtitle
+        .panel.panel-default
+          .panel-body
+            p filry
+            .dropdown
+              button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+                | Dropdown
+                span.caret
+              ul.dropdown-menu(aria-labelledby='dropdownMenu1')
+                li
+                  a(href='#') Action
+                li
+                  a(href='#') Another action
+                li
+                  a(href='#') Something else here
+                li.divider(role='separator')
+                li
+                  a(href='#') Separated link
+
+        .list-container
+          each ogloszenie in ogloszenia 
+            include ramka-ogloszenia
+                  
+    footer.well(style='text-align: center') Michał Bularz © 2017
