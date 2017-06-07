@@ -13,6 +13,7 @@ var fs = require('fs');
 var multer = require('multer');
 var mime = require('mime');
 var session = require('express-session');
+var dateFormat = require('dateformat');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -288,7 +289,23 @@ router.get('/wyloguj', function(req,res)
 
 router.get('/paneluzytkownika', function(req,res)
 {
-
+    connection.query('select * from uzytkownicy where Nazwa like "'+session.username+'"', function (err, rows, fields) 
+    {
+        if (err) throw err;
+        else 
+        {
+            var user_data = rows[0];
+            connection.query('select * from ogloszenia where Uzytkownik_ID like '+  user_data['ID'], function (err, rows, fields)
+            {
+                if (err) throw err;
+                else
+                {
+                    console.log(dateFormat(rows[0]['Data_dodania'], "dddd, mmmm dS, yyyy, h:MM:ss TT"));
+                    res.render('userpanel', { title: 'Panel użytkownika - Serwis ogłoszeń lokalnych', ogloszenia: rows, user_data: user_data, uzytkownik: session.username});
+                } 
+            });
+        }
+    });
 });
 
 
