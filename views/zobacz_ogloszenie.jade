@@ -12,10 +12,10 @@ block content
           hr
           ol.breadcrumb
             li
-              a(href='#') Home
+              a(href='/') Strona główna
             li
-              a(href='#') Library
-            li.active Data
+              a(href='/lista_ogloszen?cat_id=#{kategoria.ID}') #{kategoria.Nazwa}
+            li.active= wlasciwosc.Tytul
 
           -if (zdjecia.length != 0) // sa zdjecia  
             #slider.carousel.slide(data-ride='carousel')
@@ -60,17 +60,13 @@ block content
                     |   Data dodania:  !{wlasciwosc.Data_dodania}
                 td(style='width: 50%; text-align:right')
                   #tel.alert.alert-success(style='padding:10px; display: inline-block; font-size: 24px')
-                    span.glyphicon.glyphicon-earphone(aria-hidden='true')
-                    !{wlasciwosc.Tel}
+                    span.glyphicon.glyphicon-earphone(aria-hidden='true')  
+                    |  !{wlasciwosc.Tel}
                   br
                   button.btn.btn-primary(type='button')
                     span.glyphicon.glyphicon-envelope(aria-hidden='true')
                     |  Wyślij wiadomość
           p#opis(style='align: justify')= wlasciwosc.Opis
-          
-          button.btn.btn-info(type='button' id='ref')
-            span.glyphicon.glyphicon-refresh(aria-hidden='true')
-            |  Odśwież ogłoszenie
 
                   
     footer.well(style='text-align: center') Michał Bularz © 2017

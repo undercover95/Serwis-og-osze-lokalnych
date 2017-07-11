@@ -11,6 +11,7 @@ var users = require('./routes/users');
 var flash = require('connect-flash');
 var app = express();
 app.listen(3000);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -23,6 +24,8 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'plugins')));
+
 //app.use(formidable());
 //app.use('/upload', express.static(__dirname + '/uploads'));
 app.use(session({secret: 'ssshhhhh'}));

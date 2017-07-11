@@ -1,12 +1,12 @@
 .col-sm-4
-          #logo(style='width: 100%; height: auto;')
-            a(href='http://localhost:3000')
-              img(src='images/logo.png', width='100%', height='auto')
-          .panel.panel-primary(style='margin-top: 20px')
-            .panel-heading Kategorie
-            .panel-body
-              .list-group#kategorie
-                each kat in kategorie
-                  a.list-group-item(href='http://localhost:3000/lista_ogloszen?cat_id='+kat['ID'])= kat['Nazwa']
-                    span.badge= kat['liczba']
+  #logo(style='width: 100%; height: auto;')
+    a(href='http://localhost:3000')
+      img(src='images/logo.png', width='100%', height='auto')
+  .panel.panel-primary(style='margin-top: 20px')
+    .panel-heading Kategorie
+    .panel-body
+      .list-group#kategorie
+        each kat in kategorie
+          a.list-group-item(href='http://localhost:3000/lista_ogloszen?cat_id='+kat['ID'])= kat['Nazwa']
+            span.badge= kat['liczba']
                   

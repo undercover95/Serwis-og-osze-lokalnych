@@ -10,24 +10,31 @@ block content
         h1= subtitle
         .panel.panel-default
           .panel-body
-            p filry
-            .dropdown
-              button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
-                | Dropdown
-                span.caret
-              ul.dropdown-menu(aria-labelledby='dropdownMenu1')
-                li
-                  a(href='#') Action
-                li
-                  a(href='#') Another action
-                li
-                  a(href='#') Something else here
-                li.divider(role='separator')
-                li
-                  a(href='#') Separated link
+            .row
+              .col-sm-6
+                .input-group
+                  span.input-group-addon(id="sortuj")
+                    span.glyphicon.glyphicon-th-list(aria-hidden="true") 
+                    |  Sortowanie:
+                  select.selectpicker(onchange='sort(this)', aria-describedby="sortuj")
+                    option Od najtańszych
+                    option Od najdroższych
+                    option Od najstarszych
+                    option(selected="selected") Od najnowszych
+              .col-sm-6
+                .input-group
+                  span.input-group-addon(id="lokalizacja")
+                    span.glyphicon.glyphicon-map-marker(aria-hidden="true") 
+                    |  Lokalizacja:
+                  select.selectpicker(onchange='sort(this)', aria-describedby="lokalizacja")
+                    option Krakow
+          
 
-        .list-container(style='margin-bottom: 20px')
-          each ogloszenie in ogloszenia 
-            include ramka-ogloszenia
+        #loader-wrapper
+          .loader
+          p Proszę czekać...
+
+        #lista-ogloszen(style='margin-bottom: 20px')    
+          include lista_ogloszen_main
                   
     footer.well(style='text-align: center') Michał Bularz © 2017

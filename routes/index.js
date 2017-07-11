@@ -38,12 +38,6 @@ var upload = multer({storage: storage}).array('photo',3); // limit do 3 zdjec
 var session;
 
 
-
-
-
-
-
-var current_user = null;
 var kategorie = null;
 connection.connect();
 
@@ -64,8 +58,8 @@ router.get('/test', function(req, res) {
 
 /* GET home page. */
 router.get('/', function(req, res) {
+    console.log(kategorie);
     session = req.session;
-    console.log(session.username);
     connection.query('select *,UNIX_TIMESTAMP() - UNIX_TIMESTAMP(Data_dodania) as czas from Ogloszenia order by Ogloszenia.Data_dodania desc limit 5', function (err, rows, fields) 
     {
         if (err) throw err;
@@ -120,8 +114,10 @@ router.post('/dodaj_ogloszenie', function(req, res)
                                         if (err) throw err;
                                         else
                                         {
-                                            if(req.files != undefined)
+                                            console.log("dlugosc zdjec: "+req.files.length);
+                                            if(req.files.length != 0)
                                             {
+                                                console.log("sa zdjecia" + req.files);
                                                 
                                                 for(var i=0; i < req.files.length; i++) 
                                                 {
@@ -152,7 +148,10 @@ router.post('/dodaj_ogloszenie', function(req, res)
                                                     }
                                                 });
                                             }
-                                            else res.render('dodano_ogloszenie', {title: 'Pomyślnie dodano nowe ogłoszenie - Serwis ogłoszeń lokalnych', uzytkownik: session.username});                                 
+                                            else {
+                                                console.log("nie ma zdjec");
+                                                res.render('dodano_ogloszenie', {title: 'Pomyślnie dodano nowe ogłoszenie - Serwis ogłoszeń lokalnych', uzytkownik: session.username});
+                                            }                          
                                         }                      
                                     });
                                 }
@@ -194,10 +193,18 @@ router.get('/zobacz_ogloszenie', function(req, res)
         {
           connection.query('select Sciezka from Zdjecia_ogloszen where ID_ogloszenia='+ogl_id, function (err, rows, fields) 
           {
+            var zdjecia = rows;
             if (err) throw err;
             else 
             {
-                res.render('zobacz_ogloszenie', { title: 'Przeglądanie ogłoszenia - Serwis ogłoszeń lokalnych', kategorie: kategorie, ogloszenie: dane_ogloszenia, zdjecia: rows, uzytkownik: session.username});  
+                connection.query('select * from Kategorie where ID='+ dane_ogloszenia[0]['Kategoria_ID'], function (err, rows, fields) 
+                {
+                    if (err) throw err;
+                    else 
+                    {
+                        res.render('zobacz_ogloszenie', { title: 'Przeglądanie ogłoszenia - Serwis ogłoszeń lokalnych', kategorie: kategorie, ogloszenie: dane_ogloszenia, zdjecia: zdjecia, kategoria: rows[0], uzytkownik: session.username});  
+                    }
+                });
             }
           });
         }  
@@ -227,12 +234,71 @@ router.post('/zobacz_ogloszenie', function(req, res) {
 });
 
 router.post('/lista_ogloszen', function(req, res) {
-    var expr = req.body.expr;
-    connection.query('select * from Ogloszenia where Tytul like "%'+ expr +'%"', function (err, rows, fields) 
+
+	// obsluga sortowania
+	if(req.body.sortuj_opcja != undefined)
+	{
+            var catId = 1; // TODO: poprawic pobieranie cat id z url
+
+            if(req.body.sortuj_opcja === 'Od najtańszych')
+            {
+                connection.query('select *, UNIX_TIMESTAMP() - UNIX_TIMESTAMP(Data_dodania) as czas from Ogloszenia where Kategoria_ID='+catId+' order by Ogloszenia.Cena', function (err, rows, fields) 
+                {
+                    if (err) throw err;
+                    else 
+                    {
+                        res.render('lista_ogloszen_main', {ogloszenia: rows});
+                    }
+                });
+            }
+
+            else if(req.body.sortuj_opcja === 'Od najdroższych')
+            {
+                connection.query('select *, UNIX_TIMESTAMP() - UNIX_TIMESTAMP(Data_dodania) as czas from Ogloszenia where Kategoria_ID='+catId+' order by Ogloszenia.Cena desc', function (err, rows, fields) 
+                {
+                    if (err) throw err;
+                    else 
+                    {
+                        res.render('lista_ogloszen_main', {ogloszenia: rows});
+                    }
+                });
+            }
+
+            else if(req.body.sortuj_opcja === 'Od najstarszych')
+            {
+                connection.query('select *, UNIX_TIMESTAMP() - UNIX_TIMESTAMP(Data_dodania) as czas from Ogloszenia where Kategoria_ID='+catId+' order by Ogloszenia.Data_dodania', function (err, rows, fields) 
+                {
+                    if (err) throw err;
+                    else 
+                    {
+                        res.render('lista_ogloszen_main', {ogloszenia: rows});
+                    }
+                });
+            }
+
+            else if(req.body.sortuj_opcja === 'Od najnowszych')
+            {
+                connection.query('select *, UNIX_TIMESTAMP() - UNIX_TIMESTAMP(Data_dodania) as czas from Ogloszenia where Kategoria_ID='+catId+' order by Ogloszenia.Data_dodania desc', function (err, rows, fields) 
+                {
+                    if (err) throw err;
+                    else 
+                    {
+                        res.render('lista_ogloszen_main', {ogloszenia: rows});
+                    }
+                });
+            }
+	}
+	
+    else if(req.body.expr != undefined || req.body.expr !== '')
     {
-        if (err) throw err;
-        else res.render('lista_ogloszen', { title: 'Lista ogłoszeń - Serwis ogłoszeń lokalnych', subtitle: 'Lista ogłoszeń dla: '+expr, kategorie: kategorie, ogloszenia: rows, uzytkownik: session.username });
-    });
+        // obsluga szukajki
+        var expr = req.body.expr;
+        connection.query('select *, UNIX_TIMESTAMP() - UNIX_TIMESTAMP(Data_dodania) as czas from Ogloszenia where Tytul like "%'+ expr +'%"', function (err, rows, fields) 
+        {
+            if (err) throw err;
+            else res.render('lista_ogloszen', { title: 'Lista ogłoszeń - Serwis ogłoszeń lokalnych', subtitle: 'Lista ogłoszeń dla: "'+expr+'"', kategorie: kategorie, ogloszenia: rows, uzytkownik: session.username });
+        });
+    }
 });
 
 router.post('/', function(req, res) {
@@ -240,7 +306,7 @@ router.post('/', function(req, res) {
     connection.query('select * from Ogloszenia where Tytul like "%'+ expr +'%"', function (err, rows, fields) 
     {
         if (err) throw err;
-        else res.render('lista_ogloszen', { title: 'Lista ogłoszeń - Serwis ogłoszeń lokalnych', subtitle: 'Lista ogłoszeń dla: '+expr, kategorie: kategorie, ogloszenia: rows, uzytkownik: session.username });
+        else res.render('lista_ogloszen', { title: 'Lista ogłoszeń - Serwis ogłoszeń lokalnych', subtitle: 'Lista ogłoszeń dla: "'+expr+'"', kategorie: kategorie, ogloszenia: rows, uzytkownik: session.username });
     });
 });
 
@@ -289,23 +355,28 @@ router.get('/wyloguj', function(req,res)
 
 router.get('/paneluzytkownika', function(req,res)
 {
-    connection.query('select * from uzytkownicy where Nazwa like "'+session.username+'"', function (err, rows, fields) 
+    if(session !== undefined)
     {
-        if (err) throw err;
-        else 
+        connection.query('select * from uzytkownicy where Nazwa like "'+session.username+'"', function (err, rows, fields) 
         {
-            var user_data = rows[0];
-            connection.query('select * from ogloszenia where Uzytkownik_ID like '+  user_data['ID'], function (err, rows, fields)
+            if (err) throw err;
+            else 
             {
-                if (err) throw err;
-                else
+                var user_data = rows[0];
+                connection.query('select * from ogloszenia where Uzytkownik_ID like '+ user_data['ID'], function (err, rows, fields)
                 {
-                    console.log(dateFormat(rows[0]['Data_dodania'], "dddd, mmmm dS, yyyy, h:MM:ss TT"));
-                    res.render('userpanel', { title: 'Panel użytkownika - Serwis ogłoszeń lokalnych', ogloszenia: rows, user_data: user_data, uzytkownik: session.username});
-                } 
-            });
-        }
-    });
+                    if (err) throw err;
+                    else
+                    {
+                        var liczbaOgloszen = Object.keys(rows).length;
+                        //console.log(dateFormat(rows[0]['Data_dodania'], "dddd, mmmm dS, yyyy, h:MM:ss TT"));
+                        res.render('userpanel', { title: 'Panel użytkownika - Serwis ogłoszeń lokalnych', ogloszenia: rows, liczbaOgloszen: liczbaOgloszen,  user_data: user_data, uzytkownik: session.username});
+                    } 
+                });
+            }
+        });
+    }
+    else redirect('/');    
 });
 
 
