@@ -1,4 +1,37 @@
-if uzytkownik != null
-  include navbar_logged
-else
-  include navbar_logged_out
+.row
+  .col-sm-12
+    nav.navbar.navbar-default
+      .container-fluid
+        a.navbar-brand(href='/')
+          img(alt='Serwis ogłoszeń lokalnych', src='images/logo_horizontal.png')
+        .navbar-left
+          a(href='/dodaj_ogloszenie')
+            button.btn.btn-primary.navbar-btn.btn-md(type='button')
+              span.glyphicon.glyphicon-plus-sign 
+              |  Dodaj ogłoszenie
+        ul.nav.navbar-nav.navbar-right
+          if uzytkownik != null
+            li.dropdown
+              a.dropdown-toggle(href='/paneluzytkownika', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                span.glyphicon.glyphicon-user
+                |  #{uzytkownik} 
+                span.caret
+              ul.dropdown-menu
+                li
+                  a(href='/paneluzytkownika') Moje konto
+                li
+                  a(href='/mojeogloszenia') Moje ogłoszenia
+            li
+              a(href='/wyloguj')
+                span.glyphicon.glyphicon-log-out
+                |  Wyloguj
+                
+          else
+            li
+              a(href='/zarejestruj')
+                span.glyphicon.glyphicon-user
+                |  Zarejestruj
+            li
+              a(href='/zaloguj')
+                span.glyphicon.glyphicon-log-in
+                |  Zaloguj

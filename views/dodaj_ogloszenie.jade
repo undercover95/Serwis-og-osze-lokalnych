@@ -1,13 +1,13 @@
 extends layout
 
-block content     
+block content
+    script.
+      $('body').css("background", "url(images/pattern.png) repeat fixed center");     
     .container(style='margin-top: 20px')
       include navbar
       .row
-        include kategorie
-        .col-sm-8
-          include search
-          h1 Dodaj nowe ogłoszenie
+        .col-md-8.col-md-offset-2(style="background-color: white; -webkit-box-shadow: 0px 3px 64px -26px rgba(0,0,0,0.75); -moz-box-shadow: 0px 3px 64px -26px rgba(0,0,0,0.75); box-shadow: 0px 3px 64px -26px rgba(0,0,0,0.75);")
+          h1.custom-font.text-center Dodaj nowe ogłoszenie
           form(id='dodaj-ogloszenie-form', action='/dodaj_ogloszenie', method='post', enctype="multipart/form-data")
             .input-group
               span.input-group-addon(style='min-width:110px;') Tytuł:
@@ -17,39 +17,59 @@ block content
               select.selectpicker.form-control(name='kategoria')
                 each kategoria in kategorie
                   option= kategoria['Nazwa']
-            .input-group(style='margin-top: 10px;')
-              span.input-group-addon(style='min-width:111px;') Zdjęcia:
-              input.form-control(type='file', name='photo', style='padding-bottom: 40px', multiple='', accept='image/*', onChange='showMyImage(this)')
-              br
-            div.podglad-wrapper
-              h4 Podgląd zdjęć
-              div.podglad
-                div.miniaturka
-                  img.miniaturka-img(src='', alt='')
-                div.miniaturka
-                  img.miniaturka-img(src='', alt='')
-                div.miniaturka
-                  img.miniaturka-img(src='', alt='')
-                div(style="clear: both")
-              div.alert.alert-info(role='alert', style='margin-bottom: 0px')
-                span.glyphicon.glyphicon-info-sign
-                |  Możesz wysłać maksymalnie 3 zdjęcia.
+
+            .panel.panel-default(style='margin: 10px 0;')
+              div.panel-heading Wyślij zdjęcia
+              div.panel-body
+                .drag-n-drop-box-input
+                  input.form-control(id="photos", type='file', name='photo', data-multiple-caption="{count} wybrane pliki", multiple='', accept='image/*')
+                  label.drag-n-drop-label(for="photos")
+                    span.glyphicon.glyphicon-save(aria-hidden="true")
+                    br
+                    strong Wybierz pliki
+                    span.drag-n-drop-box  lub upuść je tutaj.
+                    br
+                    span(style="font-size: small; font-style: italic;") (Maksymalnie 3 zdjęcia)
+
+                .row
+                  div.col-sm-4.miniaturka
+                    img.miniaturka-img.img-responsive.img-thumbnail(src='', alt='', data-index='0')
+                    span.remove-img.glyphicon.glyphicon-remove-sign(aria-hidden="true")
+                    .zdj-glowne-input
+                      input(type="radio" aria-label="..." name="glownezdj" checked="checked" value='0')
+                      |  Ustaw jako zdjęcie główne
+
+                  div.col-sm-4.miniaturka
+                    img.miniaturka-img.img-responsive.img-thumbnail(src='', alt='', data-index='1')
+                    span.remove-img.glyphicon.glyphicon-remove-sign(aria-hidden="true")
+                    .zdj-glowne-input
+                      input(type="radio" aria-label="..." name="glownezdj" value='1')
+                      |  Ustaw jako zdjęcie główne
+
+                  div.col-sm-4.miniaturka
+                    img.miniaturka-img.img-responsive.img-thumbnail(src='', alt='', data-index='2')
+                    span.remove-img.glyphicon.glyphicon-remove-sign(aria-hidden="true")
+                    .zdj-glowne-input
+                      input(type="radio" aria-label="..." name="glownezdj" value='2')
+                      |  Ustaw jako zdjęcie główne
+              
+     
+
             .input-group(style='margin-top: 10px;')
               span.input-group-addon(style='min-width:110px;') Opis:
               textarea.form-control(name='opis', rows='7', maxlength="250", placeholder='Wprowadź opis ogłoszenia')
             div#charCounter
             .input-group(style='margin-top: 10px;')
               span.input-group-addon(style='min-width:111px;') Lokalizacja:
-              select.selectpicker.form-control(name='lokalizacja')
+              select.form-control.selectpicker(name='lokalizacja')
                 option Krakow
                 option Warszawa
                 option Gdansk
             .input-group(style='margin-top: 10px;')
               span.input-group-addon(style='min-width:110px;') Cena:
               input.form-control(type='text', name='cena', placeholder='Podaj cenę')
-            button.btn.btn-primary.pull-right(type='submit', style='margin-top: 10px;') Dodaj ogłoszenie
-            div(style='clear:both;')
-            div.powiadomienie
+            button.btn.btn-primary.pull-right(type='submit', style='margin: 10px 0;') Dodaj ogłoszenie
 
-      footer.well(style='text-align: center') Michał Bularz © 2017
+            div.powiadomienie
+      footer.well.text-center(style='margin-top: 20px') Michał Bularz © 2017
 

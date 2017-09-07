@@ -1,0 +1,61 @@
+extends layout
+
+block content     
+    .container(style='margin-top: 20px')
+      include navbar
+      .row
+        .col-sm-8
+          h1 Edycja ogłoszenia
+          form(id='edytuj-ogloszenie-form', action='/edytuj_ogloszenie', method='post', enctype="multipart/form-data")
+            .input-group
+              span.input-group-addon(style='min-width:110px;') Tytuł:
+              input.form-control(type='text', name='tytul', value="#{ogloszenie['Tytul']}" placeholder='Wpisz tytuł ogłoszenia')
+            .input-group(style='margin-top: 10px;')
+              span.input-group-addon(style='min-width:111px;') Kategoria:
+              select.selectpicker.form-control(name='kategoria')
+                each kategoria in kategorie
+                  option= kategoria['Nazwa']
+            .input-group(style='margin-top: 10px;')
+              span.input-group-addon(style='min-width:111px;') Zdjęcia:
+              input.form-control(type='file', name='photo', style='padding-bottom: 40px', multiple='', accept='image/*', onChange='showMyImage(this)')
+              br
+            div.podglad-wrapper
+              h4 Podgląd zdjęć
+              div.podglad
+                div.miniaturka.img-thumbnail
+                  img.miniaturka-img(src='', alt='')
+                div.miniaturka.img-thumbnail
+                  img.miniaturka-img(src='', alt='')
+                div.miniaturka.img-thumbnail
+                  img.miniaturka-img(src='', alt='')
+                div(style="clear: both")
+              div.alert.alert-info(role='alert', style='margin-bottom: 0px')
+                span.glyphicon.glyphicon-info-sign
+                |  Możesz wysłać maksymalnie 3 zdjęcia.
+            .input-group(style='margin-top: 10px;')
+              span.input-group-addon(style='min-width:110px;') Opis:
+              textarea.form-control(name='opis', rows='7', maxlength="250", placeholder='Wprowadź opis ogłoszenia') #{ogloszenie['Opis']}
+            div#charCounter
+            .input-group(style='margin-top: 10px;')
+              span.input-group-addon(style='min-width:111px;') Lokalizacja:
+              
+              -function zaznaczLokalizacje(){
+              -var selectOptions = document.getElementById('lokalizacja').options;
+              -for(var i=0; i< selectOptions.length; i++){
+              -if(selectOptions[i].text === ogloszenie['Lokalizacja'])
+                selectOptions[i].setAttribute("selected", "selected");}
+              -}
+              select#lokalizacja.form-control.selectpicker(name='lokalizacja')
+                option Krakow
+                option Warszawa
+                option Gdansk
+            .input-group(style='margin-top: 10px;')
+              span.input-group-addon(style='min-width:110px;') Cena:
+              input.form-control(type='text', name='cena', value="#{ogloszenie['Cena']}", placeholder='Podaj cenę')
+            button.btn.btn-primary.pull-right(type='submit', style='margin: 10px 0;') Zapisz zmiany
+            div(style='clear:both;')
+            div.powiadomienie
+        .col-sm-4
+
+      footer.well(style='text-align: center') Michał Bularz © 2017
+

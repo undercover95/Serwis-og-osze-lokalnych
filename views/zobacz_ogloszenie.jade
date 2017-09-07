@@ -12,10 +12,10 @@ block content
           hr
           ol.breadcrumb
             li
-              a(href='#') Home
+              a(href='/') Strona główna
             li
-              a(href='#') Library
-            li.active Data
+              a(href='/lista_ogloszen?cat_id=#{kategoria.ID}') #{kategoria.Nazwa}
+            li.active= wlasciwosc.Tytul
 
           -if (zdjecia.length != 0) // sa zdjecia  
             #slider.carousel.slide(data-ride='carousel')
@@ -57,20 +57,26 @@ block content
                   p
                     | Dodane przez:  !{wlasciwosc.Nazwa} 
                     br
-                    |   Data dodania:  !{wlasciwosc.Data_dodania}
+                    -function prettyDate(dateString){
+                      //if it's already a date object and not a string you don't need this line:
+                      -var date = new Date(dateString);
+                      -var d = date.getDate();
+                      -var monthNames = [ "stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "lipca", "sierpnia", "września", "października", "listopada", "grudnia" ];
+                      -var m = monthNames[date.getMonth()];
+                      -var y = date.getFullYear();
+                      -return d+' '+m+' '+y;
+                    -}
+                    |   Data dodania:  #{prettyDate(wlasciwosc.Data_dodania)}
                 td(style='width: 50%; text-align:right')
-                  #tel.alert.alert-success(style='padding:10px; display: inline-block; font-size: 24px')
-                    span.glyphicon.glyphicon-earphone(aria-hidden='true')
-                    !{wlasciwosc.Tel}
+                  a(href='tel:#{wlasciwosc.Tel}', title="Zadzwoń teraz")
+                    #tel.alert.alert-success(style='padding:10px; display: inline-block; font-size: 24px')
+                      span.glyphicon.glyphicon-earphone(aria-hidden='true')  
+                      |  !{wlasciwosc.Tel}
                   br
                   button.btn.btn-primary(type='button')
                     span.glyphicon.glyphicon-envelope(aria-hidden='true')
                     |  Wyślij wiadomość
           p#opis(style='align: justify')= wlasciwosc.Opis
-          
-          button.btn.btn-info(type='button' id='ref')
-            span.glyphicon.glyphicon-refresh(aria-hidden='true')
-            |  Odśwież ogłoszenie
 
                   
     footer.well(style='text-align: center') Michał Bularz © 2017

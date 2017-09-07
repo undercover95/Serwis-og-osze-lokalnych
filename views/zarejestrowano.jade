@@ -1,0 +1,18 @@
+extends layout
+
+block content     
+    .container(style='margin-top: 20px')
+      include navbar
+      .row
+        .col-sm-12(style='text-align: center')
+          //span.glyphicon.glyphicon-ok-circle(aria-hidden='true', id='added-advert-icon')
+          img.img-responsive.img-circle(style="max-width: 100px;", src='#{avatar}')
+          h1 Pomyślnie zarejestrowano użytkownika '#{username}', dziękujemy.
+          .row(style='margin-bottom: 20px')
+            a.btn.btn-success(type='button', style='margin: 10px', href='/')
+              span.glyphicon.glyphicon-home(aria-hidden='true')
+              |  Wróć na stronę główną  
+            a.btn.btn-primary(type='button', style='margin: 10px', href='/zaloguj')
+              span.glyphicon.glyphicon-log-in(aria-hidden='true')
+              |  Zaloguj się
+      footer.well(style='text-align: center') Michał Bularz © 2017

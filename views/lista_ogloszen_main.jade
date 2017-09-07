@@ -1,0 +1,18 @@
+table#list-container
+  thead
+    tr
+      th Jeden
+      th Dwa
+  each ogloszenie in ogloszenia 
+    include ramka-ogloszenia
+
+  script.
+    $('#list-container').dynatable({
+    features: {
+    paginate: true,
+    recordCount: true,
+    perPageSelect: true,
+    search: false
+    }
+    });
+    
