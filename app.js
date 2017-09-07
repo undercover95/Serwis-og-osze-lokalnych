@@ -10,7 +10,9 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var flash = require('connect-flash');
 var app = express();
-app.listen(3000);
+var listener = app.listen(3000, function(){
+    console.log("Server started at port: " + listener.address().port);
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,7 +30,11 @@ app.use(express.static(path.join(__dirname, 'plugins')));
 
 //app.use(formidable());
 //app.use('/upload', express.static(__dirname + '/uploads'));
-app.use(session({secret: 'ssshhhhh'}));
+app.use(session({
+    secret: 'ssshhhhh',
+    resave: true,
+    saveUninitialized: true}));
+
 app.use(flash());
 app.use(function(req, res, next){
     res.locals.success = req.flash('success');

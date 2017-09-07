@@ -1,13 +1,26 @@
 extends layout
 
 block content
-  .container
-    form.form-signin(action='/zaloguj', method='POST')
-      #logo(style='width: 100%; height: auto;')
-        img(src='images/logo.png', width='100%', height='auto')
-      h2.form-signin-heading Zaloguj się
-      label.sr-only(for='inputEmail') Nazwa użytkownika
-      input#inputEmail.form-control(type='username', name='username', placeholder='Nazwa użytkownika', required='', autofocus='')
-      label.sr-only(for='inputPassword') Haslo
-      input#inputPassword.form-control(type='password', name='password', placeholder='Hasło', required='')
-      button.btn.btn-lg.btn-primary.btn-block(type='submit') Zaloguj
+  script.
+    $('body').css("background", "url(images/pattern.png) repeat fixed center");
+  .container-fluid(style="background: url(images/pattern.png) repeat fixed center;")
+    .row
+      .col-md-4.col-md-offset-4(style="background-color: white; -webkit-box-shadow: 0px 3px 64px -26px rgba(0,0,0,0.75); -moz-box-shadow: 0px 3px 64px -26px rgba(0,0,0,0.75); box-shadow: 0px 3px 64px -26px rgba(0,0,0,0.75);")
+        #logo(style='width: 100%; height: auto;')
+          a(href="/")
+            img(src='images/logo.png', width='100%', height='auto')
+        form(action='/zaloguj', method='POST')
+          h2.custom-font.text-center Zaloguj się
+          .input-group(style='margin: 10px 0;')
+            span.input-group-addon(style='')
+              span.glyphicon.glyphicon-user(aria-hidden="true")
+            input#inputUsername.form-control(type='username', name='username', placeholder='Nazwa użytkownika', required='', autofocus='')
+          
+          .input-group(style='margin: 10px 0;')
+            span.input-group-addon(style='')
+              span.glyphicon.glyphicon-lock(aria-hidden="true")
+            input#inputPassword.form-control(type='password', name='password', placeholder='Hasło', required='')
+
+          button.btn.btn-lg.btn-primary.btn-block(type='submit', style="margin: 10px 0") Zaloguj
+      .col-md-4.col-md-offset-4.text-right
+        a(href="/", style='display: block; margin-bottom: 10px 0;') Wróć na stronę główną

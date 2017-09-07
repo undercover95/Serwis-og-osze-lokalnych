@@ -57,11 +57,21 @@ block content
                   p
                     | Dodane przez:  !{wlasciwosc.Nazwa} 
                     br
-                    |   Data dodania:  !{wlasciwosc.Data_dodania}
+                    -function prettyDate(dateString){
+                      //if it's already a date object and not a string you don't need this line:
+                      -var date = new Date(dateString);
+                      -var d = date.getDate();
+                      -var monthNames = [ "stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "lipca", "sierpnia", "września", "października", "listopada", "grudnia" ];
+                      -var m = monthNames[date.getMonth()];
+                      -var y = date.getFullYear();
+                      -return d+' '+m+' '+y;
+                    -}
+                    |   Data dodania:  #{prettyDate(wlasciwosc.Data_dodania)}
                 td(style='width: 50%; text-align:right')
-                  #tel.alert.alert-success(style='padding:10px; display: inline-block; font-size: 24px')
-                    span.glyphicon.glyphicon-earphone(aria-hidden='true')  
-                    |  !{wlasciwosc.Tel}
+                  a(href='tel:#{wlasciwosc.Tel}', title="Zadzwoń teraz")
+                    #tel.alert.alert-success(style='padding:10px; display: inline-block; font-size: 24px')
+                      span.glyphicon.glyphicon-earphone(aria-hidden='true')  
+                      |  !{wlasciwosc.Tel}
                   br
                   button.btn.btn-primary(type='button')
                     span.glyphicon.glyphicon-envelope(aria-hidden='true')

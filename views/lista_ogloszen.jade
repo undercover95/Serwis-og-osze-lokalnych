@@ -8,6 +8,8 @@ block content
       .col-sm-8
         include search
         h1= subtitle
+          if ogloszenia.length != 0
+            small  w #{ogloszenia[0].Nazwa_Kategorii}
         .panel.panel-default
           .panel-body
             .row
@@ -29,12 +31,14 @@ block content
                   select.selectpicker(onchange='sort(this)', aria-describedby="lokalizacja")
                     option Krakow
           
+        if ogloszenia.length != 0
+          #loader-wrapper
+            .loader
+            p Proszę czekać...
 
-        #loader-wrapper
-          .loader
-          p Proszę czekać...
-
-        #lista-ogloszen(style='margin-bottom: 20px')    
-          include lista_ogloszen_main
+          #lista-ogloszen(style='margin-bottom: 20px')    
+            include lista_ogloszen_main
+        else
+          h4 Nie znaleziono ogłoszeń.
                   
     footer.well(style='text-align: center') Michał Bularz © 2017

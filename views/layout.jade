@@ -2,13 +2,38 @@ doctype html
 html
   head
     title= title
+
+    // fonts  
+    link(href="https://fonts.googleapis.com/css?family=Caveat:400,700&amp;subset=latin-ext" rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css?family=Lato:400,700&amp;subset=latin-ext" rel="stylesheet")
+    
+    // bootstrap 3.3.7
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+
+    // bootstrap select plugin
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/bootstrap-select.min.js")
+    
+    // CSSMap
+    link(rel='stylesheet', type='text/css', href='/cssmap-poland/cssmap-poland.css', media='screen')
+    script(type="text/javascript" src="https://cssmapsplugin.com/5/jquery.cssmap.min.js")
+    
+    // dynatable plugin
     link(rel="stylesheet" href="/dynatable/jquery.dynatable.css")
     script(src="/dynatable/jquery.dynatable.js")
+
+    // chosen plugin
+    link(rel="stylesheet" href="/chosen/chosen.min.css")
+    script(src="/chosen/chosen.jquery.min.js")
+    script(src="/chosen/chosen.proto.min.js")
+
+    // jquery confirm plugin
+    link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.3/jquery-confirm.min.css")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.3/jquery-confirm.min.js")
+
+    // custom files
     script(src='/javascripts/myscript.js')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body

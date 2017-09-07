@@ -1,4 +1,4 @@
-.table-container.well(style='padding: 10px')
+.userpanel-ogloszenie.table-container.well(style='padding: 10px')
   table
     tr
       td(style='width: 60%')
@@ -9,15 +9,24 @@
           a(href='http://localhost:3000/zobacz_ogloszenie?ogloszenie_id='+ogloszenie['ID'])
             h3.media-heading= ogloszenie['Tytul']
           p 
-            |  !{ogloszenie['Data_dodania']}
+            -function prettyDate(dateString){
+                //if it's already a date object and not a string you don't need this line:
+                -var date = new Date(dateString);
+                -var d = date.getDate();
+                -var monthNames = [ "stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "lipca", "sierpnia", "września", "października", "listopada", "grudnia" ];
+                -var m = monthNames[date.getMonth()];
+                -var y = date.getFullYear();
+                -return d+' '+m+' '+y;
+            -}
+            |  Data dodania: #{prettyDate(ogloszenie['Data_dodania'])}
             .btn-group(role='group', aria-label='...')
-              button.btn.btn-primary(type='button')
+              button#userpanel-odswiez.btn.btn-primary(type='button', onclick="obslugaPrzyciskowOgloszeniaUserPanel('ref',#{ogloszenie['ID']}, this)")
                 span.glyphicon.glyphicon-refresh(aria-hidden='true')
                 |  Odśwież
-              button.btn.btn-warning(type='button')
+              a#userpanel-edytuj.btn.btn-warning(type='button', href='/edytuj_ogloszenie?advert_id='+ogloszenie['ID'])
                 span.glyphicon.glyphicon-pencil(aria-hidden='true')
                 |  Edytuj
-              button.btn.btn-danger(type='button')
+              button#userpanel-usun.btn.btn-danger(type='button', onclick="obslugaPrzyciskowOgloszeniaUserPanel('remove',#{ogloszenie['ID']}, this)")
                 span.glyphicon.glyphicon-remove(aria-hidden='true')
                 |  Usuń
       td.price(style='font-size: 22px; width: 40%; float:right; text-align: right; padding-right: 20px; line-height: 101px;')  !{ogloszenie['Cena']} zł

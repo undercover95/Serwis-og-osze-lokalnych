@@ -7,6 +7,7 @@ block content
       .col-sm-3.text-center
         .panel.panel-default
           .panel-body
+            h3.custom-font Moje konto
             img.img-circle(src='http://via.placeholder.com/150x150')
             p(style='margin-top: 20px; font-size: 16px;')
               span.glyphicon.glyphicon-user(aria-hidden='true')
@@ -25,16 +26,15 @@ block content
               .list-group(style='margin-bottom: 0px')
                 a.list-group-item.active(href='#')
                   | Moje ogłoszenia
-                  span.badge #{liczbaOgloszen}
+                  span.liczba-ogloszen.badge #{liczbaOgloszen}
                 a.list-group-item(href='#') 
                   | Ustawienia konta
                 a.list-group-item(href='#') 
                   | Wiadomości
                   span.badge 4
       .col-sm-9
-        h1 Moje ogłoszenia (#{liczbaOgloszen})
-        .list-container(style='margin-bottom: 20px')
-          each ogloszenie in ogloszenia 
-            include ramka-ogloszenia-user-panel
+        h1.custom-font Ustawienia konta
+        
+        p blah
                   
     footer.well(style='text-align: center') Michał Bularz &copy 2017

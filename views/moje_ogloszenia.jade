@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  .container(style='margin-top: 20px')
+    include navbar
+    .row
+      .col-sm-3.text-center
+        .panel.panel-default
+          .panel-body
+            h3.custom-font Moje konto
+            img.img-circle(src='http://via.placeholder.com/150x150')
+            p(style='margin-top: 20px; font-size: 16px;')
+              span.glyphicon.glyphicon-user(aria-hidden='true')
+              |  #{user_data['Nazwa']}
+              br
+              span.glyphicon.glyphicon-envelope(aria-hidden='true')
+              a(href="mailto:#{user_data['Mail']}")
+                |  #{user_data['Mail']}
+              br
+              span.glyphicon.glyphicon-earphone(aria-hidden='true')
+              a(href="tel:#{user_data['Tel']}")
+                |  !{user_data['Tel']}
+              br
+
+            .panel.panel-default(style='margin-top: 20px; margin-bottom: 0px')
+              .list-group(style='margin-bottom: 0px')
+                a.list-group-item.active(href='#')
+                  | Moje ogłoszenia
+                  span.liczba-ogloszen.badge #{liczbaOgloszen}
+                a.list-group-item(href='#') 
+                  | Ustawienia konta
+                a.list-group-item(href='#') 
+                  | Wiadomości
+                  span.badge 4
+      .col-sm-9
+        h1.custom-font Moje ogłoszenia
+        
+        .list-container(style='margin-bottom: 20px')
+          each ogloszenie in ogloszenia 
+            include ramka-ogloszenia-user-panel
+                  
+    footer.well(style='text-align: center') Michał Bularz &copy 2017
